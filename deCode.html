@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .a{
+            width: 100%;
+            text-align: center;
+            font-size: 100px;
+        }
+    </style>
+    <script>
+        function click(){
+            console.log(111)
+            alert(document.getElementById('str').innerText)
+        }
+    </script>
+</head>
+<body>
+
+    <div>
+        <input id="str">
+        <button onclick="clic1k()"> submit </button>
+    </div>
+    <pre>
+        1. CRS_CS （初筛）: CRS_CS_DSX（初筛，待筛选），CRS_CS_YSX （ 初筛，已筛选）-> one
+        2. CRS_BS （笔试）-> tow
+        3. CRS_ZYFS （专业复筛/复试？）-> serf
+        4. CRS_QM（群面？）， CRS_ZYMS（专业面试），CRS_RLMS（人力面试），CRS_ZHMS （综合面试）上4种状态均需要interview面试，有DAP（待安排）和YAP（已安排）子状态 -> fore
+        5. CRS_SPLY（审批录用）：分为DTJ和YTJ状态
+        6. CRS_QYDY（签约调用？）分为4个子状态，CRS_QYDY_DTZ（待调整/待通知?），CRS_QYDY_YTZ （已调整/已通知?），CRS_QYDY_WJS （未接受/未结束？），CRS_QYDY_YJS （已接受/已结束？）-> serye, faer, sxe
+    </pre>
+    <div class="a" id="result"></div>
+</body>
+
+
+<script src="crypto-js-4.1.1/core.js"></script>
+<script src="crypto-js-4.1.1/cipher-core.js"></script>
+<script src="crypto-js-4.1.1/aes.js"></script>
+<script src="crypto-js-4.1.1/format-hex.js"></script>
+<script src="crypto-js-4.1.1/core.js?_=20201102"></script>
+<script src="crypto-js-4.1.1/cipher-core.js?_=20201102"></script>
+<script src="crypto-js-4.1.1/aes.js?_=20201102"></script>
+<script src="crypto-js-4.1.1/format-hex.js?_=20201102"></script>
+<script>
+    //alert(DecryptParamStr("742e9679129f7f073347cd56c9773a83","4372734023526563727569744e616d65","30313233343536373839414243444546"))
+    function clic1k(){
+
+        let result = DecryptParamStr(document.getElementById('str').value,"4372734023526563727569744e616d65","30313233343536373839414243444546");
+        document.getElementById('result').innerHTML = result;
+    }
+
+    function DecryptParamStr (word, keyStr, ivStr) {
+        var key = keyStr;
+        var iv = ivStr;
+
+        key = CryptoJS.enc.Hex.parse(key);
+        iv = CryptoJS.enc.Hex.parse(iv);
+
+        var dec = CryptoJS.AES.decrypt(CryptoJS.format.Hex.parse(word), key, {
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        return CryptoJS.enc.Utf8.stringify(dec);
+    }
+</script>
+</html>
